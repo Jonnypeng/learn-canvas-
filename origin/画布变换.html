@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+	<canvas id="canvas" width="500" height="300"></canvas>		
+	<script>
+		var canvas = document.getElementById("canvas");
+		var context = canvas.getContext("2d");
+
+		context.fillStyle = "black";
+		context.fillRect(20,20,25,25);
+
+
+		context.fillStyle = "red";
+		context.setTransform(1,0,0,1,0,0);
+		context.save();
+		var angleInRadians = 45*Math.PI/180;
+
+		var x =100;
+		var y =100;
+
+		var width = 50;
+		var height = 50;
+
+		context.translate(x+0.5*width,y+0.5*height); //125,125
+		context.rotate(angleInRadians);
+		context.fillRect(-0.5*width,-0.5*height,width,height);//-25,-25
+		context.setTransform(1,0,0,1,0,0);
+		var x = 100;
+		var y = 100;
+		var width = 50;
+		var height = 50;
+		context.translate(x+0.5*width,y+0.5*height);
+		context.scale(2,2);
+		context.fillStyle = "red";
+		context.fillRect(-.5*width,-.5*height,width,height);
+
+	context.restore();	
+	context.save();
+	context.clearRect(0,0,500,300);	
+
+	var angleInRadians = 45*Math.PI / 180;
+	var x = 100;
+	var y = 100;
+	var width = 50;
+	var height = 50;
+	context.translate(x+.5*width,y+.5*height);
+	context.scale(2,2);
+	context.rotate(angleInRadians);
+	context.fillRect(-.5*width,-.5*height,width,height);
+
+	context.restore();
+	context.clearRect(0,0,500,300);	
+	var angleInRadians = 90*Math.PI/180;
+	var x = 100;
+	var y = 100;
+	var width = 100;
+	var height = 50;
+	context.translate(x+.5*width,y+.5*height);
+	context.rotate(angleInRadians);
+	context.scale(2,2);
+
+	context.fillStyle = "red";
+	context.fillRect(-.5*width,-.5*height,width,height);
+
+
+
+
+
+
+
+
+
+
+	</script>
+</body>
+</html>

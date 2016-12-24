@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+	<canvas id="canvas" width="500" height="300"></canvas>		
+	<script>
+	var canvas = document.getElementById("canvas");
+	var context = canvas.getContext("2d");
+
+	context.fillStyle = "black";
+	context.fillRect(10,10,200,200);
+
+	context.fillStyle = "red";
+	context.fillRect(1,1,50,50);
+
+	context.globalCompositeOperation = "source-over";//并集
+	context.save();
+	context.fillRect(60,1,50,50);
+
+	context.globalCompositeOperation = "source-in";//交集
+	//context.globalCompositeOperation = "source-out";//补集
+	//context.globalCompositeOperation = "source-atop";
+	context.fillRect(1,60,50,50);
+
+	context.restore();	
+	context.fillRect(60,60,50,50);
+
+	context.setTransform(1,0,0,1,0,0);
+	context.rotate(15*Math.PI/180);
+	context.fillStyle = "green";
+	context.fillRect(70,70,50,50)
+
+
+
+
+
+
+
+	</script>
+</body>
+</html>

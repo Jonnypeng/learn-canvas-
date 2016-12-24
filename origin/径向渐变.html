@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+	<canvas id="canvas" width="500" height="300"></canvas>		
+	<script>
+		var canvas = document.getElementById("canvas");
+		var context = canvas.getContext("2d");
+		var num = 150;
+		var uum = 150;
+		var gr;
+		var onOff = true;
+
+		(function fn(){
+			if(onOff){
+				num++;
+				uum--;
+				if(num>175){
+					num=175;
+					onOff=false;
+				};
+				}else{
+				num--;
+				uum++;
+				if(num<125){
+					num=125;
+					onOff=true;
+				};
+			}
+			console.log(num);
+			drawScreen();
+			setTimeout(fn,20);
+		})();
+
+		function drawScreen(){
+		gr=context.createRadialGradient(uum,num,25,num,uum,100);
+		gr.addColorStop(0,"red");
+		gr.addColorStop(0.5,"blue");
+		gr.addColorStop(1,"green");
+
+		context.fillStyle = gr;
+		context.strokeStyle = gr;
+		context.lineWidth = "50";
+		context.fillRect(0,0,100,100);
+		context.fillRect(100,0,100,100);
+		context.fillRect(0,100,100,100);
+		context.fillRect(100,100,100,100);
+		context.fillRect(200,0,100,200);
+		context.fillRect(0,200,300,100);
+	//	context.arc(150,150,150,0*Math.PI/180,360*Math.PI/180,false);
+	//	context.arc(150,150,100,0*Math.PI/180,360*Math.PI/180,false);
+	//	context.stroke();
+
+	};
+	</script>
+</body>
+</html>

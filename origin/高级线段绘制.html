@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+	<canvas id="canvas" width="500" height="300"></canvas>		
+	<script>
+		var canvas = document.getElementById("canvas");
+		var context = canvas.getContext("2d");
+		//round end, bevel join, at top left of canvas
+		context.strokeStyle = "black";
+		context.lineWidth = 10;
+		context.lineJoin = "bevel";
+		context.lineCap = "round";
+		context.beginPath();
+		context.moveTo(0,0);
+		context.lineTo(25,0);
+		context.lineTo(25,25);
+		context.stroke();
+		context.closePath();
+
+		//round end, bevel join, not at top or left of canvas
+		context.beginPath();
+		context.moveTo(10,50);
+		context.lineTo(35,50);
+		context.lineTo(35,75);
+		context.stroke();
+		context.closePath();
+
+		//Sample 3: flat end, round join, not at top or left of canvas
+		context.lineJoin = "round";
+		context.lineCap = "butt";
+		context.beginPath();
+		context.moveTo(10,100);
+		context.lineTo(35,100);
+		context.lineTo(35,125);
+		context.stroke();
+		context.closePath();
+
+		//弧度绘制，context.arc(x, y, radius, startAngle, endAngle, anticlockwise)
+		context.beginPath();
+		context.strokeStyle = "red";
+		context.lineWidth = "3";
+		context.arc(30,155,10,(Math.PI/180)*0,(Math.PI/180)*270,false);
+		context.stroke();
+		context.closePath();
+
+		//直线切弧线
+		context.clearRect(0,0,500,300);
+		context.beginPath();
+		context.strokeStyle = "red";
+		context.lineWidth = "3";
+		context.moveTo(0,0);
+		context.lineTo(100,200);
+		context.arcTo(350,350,100,100,20);
+		context.stroke();
+		context.closePath();
+
+		//贝塞尔
+		context.clearRect(0,0,500,300);
+		context.moveTo(150,0);
+		context.bezierCurveTo(0,125,300,175,150,300);
+		context.stroke();
+	</script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+	<canvas id="canvas" width="500" height="300"></canvas>		
+	<script>
+		var canvas = document.getElementById("canvas");
+		var context = canvas.getContext("2d");
+
+	var gr = context.createLinearGradient(0,0,100,0);
+		context.save();
+		gr.addColorStop(0,"red");
+		gr.addColorStop(0.25,"gray");
+		gr.addColorStop(0.5,"green");
+		gr.addColorStop(0.75,"white");
+		gr.addColorStop(1,"blue");
+
+		context.fillStyle = gr;
+		context.fillRect(0,0,100,100);
+
+ 		var gr_2 = context.createLinearGradient(100,0,200,0);
+		gr_2.addColorStop(0,"red");
+		gr_2.addColorStop(0.25,"gray");
+		gr_2.addColorStop(0.5,"green");
+		gr_2.addColorStop(0.75,"white");
+		gr_2.addColorStop(1,"blue");
+
+		context.fillStyle = gr_2;
+		context.fillRect(100,0,100,100);
+		context.fillRect(100,0,100,300);
+		context.clearRect(0,0,500,300);
+		context.restore();
+
+		gr.addColorStop(0,"red");
+		gr.addColorStop(0.5,"blue");
+		gr.addColorStop(1,"green");
+
+		context.strokeStyle = gr;
+		context.lineWidth = "5";
+		context.strokeRect(0,0,100,100);
+		context.strokeRect(0,100,50,100);
+		context.strokeRect(0,200,200,100);
+
+		context.clearRect(0,0,500,300);
+
+		context.fillStyle = gr;
+		context.strokeStyle = "red";
+		context.beginPath();
+		context.moveTo(0,0);
+		context.lineTo(50,0);
+		context.lineTo(100,50);
+		context.lineTo(50,100);
+		context.lineTo(0,100);
+		context.lineTo(0,0);
+		context.stroke();
+		context.fill();
+		context.closePath();
+
+		
+	</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+	<canvas id="canvas" width="500" height="300">
+	</canvas>		
+</body>
+<script>
+	var canvas = document.getElementById("canvas");
+	var ctx = canvas.getContext("2d");
+
+	ctx.fillStyle = "#ffffaa";
+	ctx.fillRect(0,0,500,300);
+
+	ctx.fillStyle = "black";
+	ctx.font = "20px courier";
+	ctx.textBaseline = "top";
+	ctx.fillText("Hello World",185,30);
+
+	var helloWorldImage = new Image();
+	helloWorldImage.src = "http://javonsjiang.com/wp-content/uploads/2016/03/Hello-World-150x150.png";
+	ctx.drawImage(helloWorldImage,175,100,150,150);
+
+	ctx.strokeStyle = "red";
+	ctx.strokeRect(10,10,480,280);
+
+	`
+
+</script>
+</html>
