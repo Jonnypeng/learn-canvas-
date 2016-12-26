@@ -5,13 +5,31 @@
 	<title></title>
 </head>
 <body>
-	<canvas id="canvas" width="500" height="300"></canvas>		
+	<canvas id="canvas" width="500" height="800"></canvas>		
 	<script>
 		var canvas = document.getElementById("canvas");
 		var context = canvas.getContext("2d");
 
 		context.fillStyle = "red";
 
+		context.shadowOffsetX = -4;
+		context.shadowOffsetY = -4;
+		context.shadowColor = "black";
+		context.shadowBlur = 4;
+		context.fillRect(10,10,100,100);
+
+		context.shadowOffsetX = -4;
+		context.shadowOffsetY = -4;
+		context.shadowColor = "black";
+		context.shadowBlur = 4;
+		context.fillRect(150,10,100,100);
+
+		context.shadowOffsetX = 10;
+		context.shadowOffsetY = 10;
+		context.shadowColor = "rgb(100,100,100)";
+		context.shadowBlur = 8;
+		context.arc(200,200,100,0*(Math.PI/180),360*(Math.PI/180),false);
+		context.fill();
 
 	</script>
 </body>

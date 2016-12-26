@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style>
+		canvas{
+			border:1px solid gray;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="canvas" width="500" height="300"></canvas>		
+	<form action="">
+		你输入的文本内容：<input id="textBox" type="text" placeholder="请输入文字"><br/>
+		请选择是描边还是填充：
+		<select id="fillOrStroke" name="">
+			<option value="fill">填充</option>
+			<option value="stroke">描边</option>
+			<option value="both">两者</option>
+		</select>
+		<input type="button" value="确认">
+	</form>
+	<script>
+		var canvas = document.getElementById("canvas");
+		var context = canvas.getContext("2d");
+
+
+	</script>
+</body>
+</html>
