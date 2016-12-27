@@ -1,31 +1,245 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title></title>
-	<style>
-		canvas{
-			border:1px solid gray;
-		}
-	</style>
-</head>
-<body>
-	<canvas id="canvas" width="500" height="300"></canvas>		
-	<form action="">
-		你输入的文本内容：<input id="textBox" type="text" placeholder="请输入文字"><br/>
-		请选择是描边还是填充：
-		<select id="fillOrStroke" name="">
-			<option value="fill">填充</option>
-			<option value="stroke">描边</option>
-			<option value="both">两者</option>
-		</select>
-		<input type="button" value="确认">
-	</form>
-	<script>
-		var canvas = document.getElementById("canvas");
-		var context = canvas.getContext("2d");
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			canvas{
+				border:1px solid gray;
+			}
+		</style>
+	</head>
+		<script src="//cdn.bootcss.com/jscolor/2.0.4/jscolor.min.js"></script>
+	<body>
+		<canvas id="canvas" width="500" height="300"></canvas>		
+		<form action="">
+			你输入的文本内容：<input id="textBox" type="text" placeholder="请输入文字"><br/>
+			请选择描边还是填充：
+			<select id="fillOrStroke" name="">
+				<option value="fill">填充</option>
+				<option value="stroke">描边</option>
+				<option value="both">两者</option>
+			</select><br/>
+			请选择字体：
+			<select id="textFont" name="">
+				<option value="sans-serif">sans-serif</option>
+				<option value="serif">serif</option>
+				<option value="fantasy">fantasy</option>
+				<option value="courier">courier</option>
+			</select><br/>
+			字体粗细：
+			<select id="textWeight" name="">
+				<option value="normal">normal</option>
+				<option value="bold">bold</option>
+			</select><br/>
+			字体大小：<input id="textSize" type="range" min="0" max="200" step="1" value="50"><br/>
+			字体颜色：<input id="textColor" class="jscolor {hash:true}" value=""><br/>		
+			垂直对齐：
+			<select id="textBaseline" name="">
+				<option value="middle">middle</option>
+				<option value="top">top</option>
+				<option value="hanging">hanging</option>
+				<option value="alphabetic">alphabetic</option>
+				<option value="ideographic">ideographic</option>
+				<option value="bottom">bottom</option>		
+			</select><br/>
+			水平对齐：
+			<select id="textAlign" name="">
+				<option value="center">center</option>
+				<option value="start">start</option>
+				<option value="end">end</option>
+				<option value="left">left</option>
+				<option value="right">right</option>
+			</select><br/>			
+			透明度：<input id="textAlpha" type="range" min="0.0" max="1.0" step="0.1" value="1"><br />
+			阴影颜色：
+			<input id="textShadowColor" class="jscolor{hash:true}" type=""><br/>
+			阴影偏离x轴：
+			<input id="textShadowOffsetX" type="range" min="-10" max="10" value="0"><br/>
+			阴影偏离y轴：
+			<input id="textShadowOffsetY" type="range" min="-10" max="10" value="0"><br/>
+			阴影扩散度：
+			<input id="textShadowBlur" type="range" min="0" max="10" value="0"><br/>
+		</form>
+		<script>
+			var canvas = document.getElementById("canvas");
+			var context = canvas.getContext("2d");
+			var textBox = document.getElementById("textBox");	
+			var fillOrStroke = document.getElementById("fillOrStroke");
+			var textSize = document.getElementById("textSize");
+			var textFont = document.getElementById("textFont");
+			var textWeight = document.getElementById("textWeight");
+			var textColor = document.getElementById("textColor");
+			var textBaseline = document.getElementById("textBaseline");
+			var textAlign = document.getElementById("textAlign");
+			var textAlpha = document.getElementById("textAlpha");
+			var textShadowColor = document.getElementById("textShadowColor");
+			var textShadowOffsetX = document.getElementById("textShadowOffsetX");
+			var textShadowOffsetY = document.getElementById("textShadowOffsetY");
+			var textShadowBlur = document.getElementById("textShadowBlur");
+			var message,xPosition,yPosition,fillOrStroke,font,fontStyle,fontSize,fontWeight,fontColor,fontBaseline,fontAlign,fontAlpha,fontShadownColor,fontShadowOffsetX,fontShadowOffsetY,fontShadowBlur;
+			textBox.addEventListener("keyup",textBoxFn,false);
+			fillOrStroke.addEventListener("change",fillOrStrokeFn,false);
+			textSize.addEventListener("change",textSizeFn,false);
+			textFont.addEventListener("change",textFontFn,false);
+			textWeight.addEventListener("change",textWeightFn,false);
+			textColor.addEventListener("change",textColorFn,false);
+			textBaseline.addEventListener("change",textBaselineFn,false);
+			textAlign.addEventListener("change",textAlignFn,false);
+			textAlpha.addEventListener("change",textAlphaFn,false);
+			textShadowColor.addEventListener("change",textShadowColorFn,false);
+			textShadowOffsetX.addEventListener("change",textShadowOffsetXFn,false);
+			textShadowOffsetY.addEventListener("change",textShadowOffsetYFn,false);
+			textShadowBlur.addEventListener("change",textShadowBlurFn,false);
+
+			function textBoxFn(e){
+				var target = e.target;
+				message = target.value;
+				if(!fontAlign){
+					fontAlign = "center";
+					context.textAlign = fontAlign;
+				};
+				fillOrStroke = "fill";
+				drawScreen();
+			};
+
+			function fillOrStrokeFn(e){
+				var target = e.target;
+				fillOrStroke = target.value;
+				drawScreen();
+			};
+
+			function textSizeFn(e){
+				var target = e.target;
+				fontSize = target.value;
+				if(!fontStyle){
+					fontStyle = "sans-serif";
+				};
+				if(!fontWeight){
+					fontWeight = "normal";
+				};
+				context.font = fontWeight + " " + fontSize + "px " + fontStyle;
+				drawScreen();
+			};
+
+			function textWeightFn(e){
+				var target = e.target;
+				fontWeight = target.value;
+				if(!fontSize){
+					fontSize = 10;
+				};
+				if(!fontStyle){
+					fontStyle = "sans-serif";
+				};
+				if(fontStyle=="sans-serif" && fontWeight=="bold"){
+				alert("Sorry!~Sans-serif字体没有加粗的样式");
+				target.value = "normal";
+				fontWeight = target.value;
+				};
+				context.font = fontWeight + " " + fontSize + "px " + fontStyle;
+				console.log(fontWeight,typeof(fontWeight),context.font);
+				drawScreen();
+			};
+
+			function textFontFn(e){
+				var target = e.target;
+				fontStyle = target.value;
+				if(!fontSize){
+					fontSize = 10;
+				};
+				if(!fontWeight){
+					fontWeight = "normal"
+				};
+				if(fontStyle=="sans-serif" && fontWeight=="bold"){
+				alert("Sorry!~Sans-serif字体没有加粗的样式");
+				textWeight.value = "normal";
+				fontWeight = textWeight.value;
+				};
+				context.font = fontWeight + " " + fontSize + "px " + fontStyle;
+				drawScreen();
+			};
+
+			function textColorFn(e){
+				var target = e.target;
+				fontColor = target.value;
+				context.fillStyle = fontColor;
+				context.strokeStyle = fontColor;
+				drawScreen();
+			};
+
+			function textBaselineFn(e){
+				var target = e.target;
+				fontBaseline = target.value;
+				context.textBaseline = fontBaseline;
+				drawScreen();
+			};
+
+			function textAlignFn(e){
+				var target = e.target;
+				fontAlign = target.value;
+				context.textAlign = fontAlign;
+				drawScreen();
+			};
+
+			function textAlphaFn(e){
+				var target = e.target;
+				fontAlpha = target.value;
+				context.globalAlpha = fontAlpha;
+				drawScreen();
+			};
 
 
-	</script>
-</body>
+			function textShadowColorFn(e){
+				var target = e.target;
+				fontShadowColor = target.value;
+				context.shadowColor = fontShadowColor;
+				drawScreen();
+			};
+			function textShadowOffsetXFn(e){
+				var target = e.target;
+				fontShadowOffsetX = target.value;
+				context.shadowOffsetX = fontShadowOffsetX;
+				drawScreen();
+			};
+			function textShadowOffsetYFn(e){
+				var target = e.target;
+				fontShadowOffsetY = target.value;
+				context.shadowOffsetY = fontShadowOffsetY
+				drawScreen();
+			};
+			function textShadowBlurFn(e){
+				var target = e.target;
+				fontShadowBlur = target.value;
+				context.shadowBlur = fontShadowBlur;
+				drawScreen();
+			};
+
+			function drawScreen(){
+				context.clearRect(0,0,canvas.width,canvas.height);
+				//var metrics = context.measureText(message);	
+				//var textWidth = metrics.width;
+				//xPosition = (canvas.width/2)-(textWidth/2);
+				xPosition = canvas.width/2;
+				yPosition = canvas.height/2;
+				switch(fillOrStroke){
+					case "fill":
+					context.fillText(message,xPosition,yPosition);
+					break;
+					case "stroke":
+					context.strokeStyle = "gray";
+					context.lineWidth = "1";
+					context.strokeText(message,xPosition,yPosition);
+					break;
+					case "both":
+					context.strokeText(message,xPosition,yPosition);
+					context.fillText(message,xPosition,yPosition);
+					break;
+				};
+			};
+
+
+
+
+		</script>
+	</body>
 </html>
