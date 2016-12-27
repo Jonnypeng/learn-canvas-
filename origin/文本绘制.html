@@ -60,6 +60,18 @@
 			<input id="textShadowOffsetY" type="range" min="-10" max="10" value="0"><br/>
 			阴影扩散度：
 			<input id="textShadowBlur" type="range" min="0" max="10" value="0"><br/>
+			渐变方式：
+			<select id="createGradient" name="">
+				<option value="none">不渐变</option>
+				<option value="linear">线性</option>
+				<option value="radial">径向</option>
+			</select><br/>
+			渐变前景色：
+			<input id="frontColor" class="jscolor{hash:true}" type=""><br/>
+			渐变背景色：
+			<input id="endColor" class="jscolor{hash:true}" type=""><br/>
+			前景色渐变占比：
+			<input id="stopColor" type="range" min="0" max="10" value="0" setp="0.1"><br/>
 		</form>
 		<script>
 			var canvas = document.getElementById("canvas");
@@ -77,7 +89,14 @@
 			var textShadowOffsetX = document.getElementById("textShadowOffsetX");
 			var textShadowOffsetY = document.getElementById("textShadowOffsetY");
 			var textShadowBlur = document.getElementById("textShadowBlur");
-			var message,xPosition,yPosition,fillOrStroke,font,fontStyle,fontSize,fontWeight,fontColor,fontBaseline,fontAlign,fontAlpha,fontShadownColor,fontShadowOffsetX,fontShadowOffsetY,fontShadowBlur;
+			var createGradient = document.getElementById("createGradient");
+			var frontColor = document.getElementById("frontColor");
+			var endColor = document.getElementById("endColor");
+			var stopColor = document.getElementById("stopColor");
+
+
+			var textWidth,textHeight,message,xPosition,yPosition,fillOrStroke,font,fontStyle,fontSize,fontWeight,fontColor,fontBaseline,fontAlign,fontAlpha,fontShadownColor,fontShadowOffsetX,fontShadowOffsetY,fontShadowBlur,gradient,frontStop,endStop,frontStopColor,endStopColor;
+
 			textBox.addEventListener("keyup",textBoxFn,false);
 			fillOrStroke.addEventListener("change",fillOrStrokeFn,false);
 			textSize.addEventListener("change",textSizeFn,false);
@@ -91,6 +110,64 @@
 			textShadowOffsetX.addEventListener("change",textShadowOffsetXFn,false);
 			textShadowOffsetY.addEventListener("change",textShadowOffsetYFn,false);
 			textShadowBlur.addEventListener("change",textShadowBlurFn,false);
+			createGradient.addEventListener("change",createGradientFn,false);
+			frontColor.addEventListener("change",frontColorFn,false);
+			endColor.addEventListener("change",endColorFn,false);
+			stopColor.addEventListener("change",stopColorFn,false);
+
+			function stopColorFn(e){
+				var target = e.target;
+				frontStop = target.value;	
+				endStop = 1 - frontStop;
+				if(!frontStopColor){
+					frontStopColor = "black";
+				};
+				if(!endStopColor){
+					endStopColor = "black";
+				};
+				console.log(gradient);
+				gradient.addColorStop(frontStop,frontStopColor);	
+				gradient.addColorStop(endStop,endStopColor);	
+				drawScreen();
+			};
+
+			function frontColorFn(e){
+				var target = e.target;
+				frontStopColor = target.value;	
+				if(!frontStop){
+					frontStop = 0;
+				}
+				gradient.addColorStop(frontStop,frontStopColor);	
+				drawScreen();
+			};
+
+			function endColorFn(e){
+				var target = e.target;
+				endStopColor = target.value;	
+				if(!endStop){
+					endStop = 1;
+				}
+				gradient.addColorStop(endStop,endStopColor);	
+				drawScreen();
+			};
+
+			function createGradientFn(e){
+				var target = e.target;
+				var gradientValue = target.value;
+				var startX  = (canvas.width/2) - (textWidth/2);
+				var endX =  (canvas.width/2) + (textWidth/2);
+				var startY = (canvas.height/2) - (textHeight/2);
+				var endY = (canvas.height/2) + (textHeight/2);
+				switch(gradientValue){
+					case "linear":
+					gradient = context.createLinearGradient(startX,startY,endX,endY);
+					break;
+					case "radial":
+					gradient = context.createRadialGradient(canvas.width/2,canvas.height/2,(canvas.height/2)/2,canvas.width/2,canvas.height/2,canvas.height/2);
+					break;
+				};
+				drawScreen();
+			};
 
 			function textBoxFn(e){
 				var target = e.target;
@@ -216,9 +293,10 @@
 
 			function drawScreen(){
 				context.clearRect(0,0,canvas.width,canvas.height);
-				//var metrics = context.measureText(message);	
-				//var textWidth = metrics.width;
-				//xPosition = (canvas.width/2)-(textWidth/2);
+				var metrics = context.measureText(message);	
+				textWidth = metrics.width;
+				textHeight = metrics.height;
+				console.log(textWidth);
 				xPosition = canvas.width/2;
 				yPosition = canvas.height/2;
 				switch(fillOrStroke){
