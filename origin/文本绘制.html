@@ -70,8 +70,6 @@
 			<input id="frontColor" class="jscolor{hash:true}" type=""><br/>
 			渐变背景色：
 			<input id="endColor" class="jscolor{hash:true}" type=""><br/>
-			前景色渐变占比：
-			<input id="stopColor" type="range" min="0" max="10" value="0" setp="0.1"><br/>
 		</form>
 		<script>
 			var canvas = document.getElementById("canvas");
@@ -92,10 +90,9 @@
 			var createGradient = document.getElementById("createGradient");
 			var frontColor = document.getElementById("frontColor");
 			var endColor = document.getElementById("endColor");
-			var stopColor = document.getElementById("stopColor");
 
 
-			var textWidth,textHeight,message,xPosition,yPosition,fillOrStroke,font,fontStyle,fontSize,fontWeight,fontColor,fontBaseline,fontAlign,fontAlpha,fontShadownColor,fontShadowOffsetX,fontShadowOffsetY,fontShadowBlur,gradient,frontStop,endStop,frontStopColor,endStopColor;
+			var textWidth,message,xPosition,yPosition,fillOrStroke,font,fontStyle,fontSize,fontWeight,fontColor,fontBaseline,fontAlign,fontAlpha,fontShadownColor,fontShadowOffsetX,fontShadowOffsetY,fontShadowBlur,gradient,frontStop,endStop,frontStopColor,endStopColor;
 
 			textBox.addEventListener("keyup",textBoxFn,false);
 			fillOrStroke.addEventListener("change",fillOrStrokeFn,false);
@@ -115,39 +112,17 @@
 			endColor.addEventListener("change",endColorFn,false);
 			stopColor.addEventListener("change",stopColorFn,false);
 
-			function stopColorFn(e){
-				var target = e.target;
-				frontStop = target.value;	
-				endStop = 1 - frontStop;
-				if(!frontStopColor){
-					frontStopColor = "black";
-				};
-				if(!endStopColor){
-					endStopColor = "black";
-				};
-				console.log(gradient);
-				gradient.addColorStop(frontStop,frontStopColor);	
-				gradient.addColorStop(endStop,endStopColor);	
-				drawScreen();
-			};
-
 			function frontColorFn(e){
 				var target = e.target;
 				frontStopColor = target.value;	
-				if(!frontStop){
-					frontStop = 0;
-				}
-				gradient.addColorStop(frontStop,frontStopColor);	
-				drawScreen();
 			};
 
 			function endColorFn(e){
 				var target = e.target;
 				endStopColor = target.value;	
-				if(!endStop){
-					endStop = 1;
-				}
-				gradient.addColorStop(endStop,endStopColor);	
+				gradient.addColorStop(0.5,frontStopColor);	
+				gradient.addColorStop(1,endStopColor);	
+				context.fillStyle = gradient;
 				drawScreen();
 			};
 
@@ -156,8 +131,8 @@
 				var gradientValue = target.value;
 				var startX  = (canvas.width/2) - (textWidth/2);
 				var endX =  (canvas.width/2) + (textWidth/2);
-				var startY = (canvas.height/2) - (textHeight/2);
-				var endY = (canvas.height/2) + (textHeight/2);
+				var startY = 0;
+				var endY = 0;
 				switch(gradientValue){
 					case "linear":
 					gradient = context.createLinearGradient(startX,startY,endX,endY);
@@ -166,7 +141,6 @@
 					gradient = context.createRadialGradient(canvas.width/2,canvas.height/2,(canvas.height/2)/2,canvas.width/2,canvas.height/2,canvas.height/2);
 					break;
 				};
-				drawScreen();
 			};
 
 			function textBoxFn(e){
@@ -295,7 +269,6 @@
 				context.clearRect(0,0,canvas.width,canvas.height);
 				var metrics = context.measureText(message);	
 				textWidth = metrics.width;
-				textHeight = metrics.height;
 				console.log(textWidth);
 				xPosition = canvas.width/2;
 				yPosition = canvas.height/2;
