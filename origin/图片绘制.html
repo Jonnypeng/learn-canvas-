@@ -15,9 +15,18 @@ function canvasApp(){
 	}else{
 		var theCanvas = document.getElementById("canvas");
 		var context = theCanvas.getContext("2d");
+		var tillSheet = new Image();
+		tillSheet.src = "ships.png";
+		tillSheet.addEventListener("load",eventSheetLoaded,false);
+	
+		function eventSheetLoaded(){
+			drawScreen();	
+		};
 	}
-	drawScreen();
 	function drawScreen() {
+		context.fillStyle = "#aaaaaa";
+		context.fillRect(0,0,500,500);
+		context.drawImage(tillSheet,32,0,32,32,50,50,100,100);	
 	} }
 function canvasSupport () {return Modernizr.canvas;}
 </script>

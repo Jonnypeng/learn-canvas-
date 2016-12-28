@@ -11,11 +11,14 @@
 		var context = canvas.getContext("2d");
 
 		var fillImg = new Image();
+		var fillImg2 = new Image();
 		fillImg.src = "point.png";
+		fillImg2.src = "http://fratgsa.org/gifs/point_rouge2.gif";
 		fillImg.onload = function (){
 			var fillPattern1 = context.createPattern(fillImg,"repeat");
 			var fillPattern2 = context.createPattern(fillImg,"repeat-x");
 			var fillPattern3 = context.createPattern(fillImg,"repeat-y");
+			var fillPattern4 = context.createPattern(fillImg2,"repeat");
 			context.fillStyle = fillPattern1;
 			context.fillRect(0,0,100,100);
 
@@ -25,6 +28,10 @@
 			context.translate(0,110);
 			context.fillStyle = fillPattern2;
 			context.fillRect(0,0,100,100);
+			
+			context.fillStyle = fillPattern4;
+			context.font = "100px courior";
+			context.fillText("hello World",0,0);
 		};
 	</script>
 </body>

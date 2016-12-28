@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+	<canvas id="canvas" width="600" height="200"></canvas>		
+	<script>
+		var theCanvas = document.getElementById("canvas");
+		var context = canvas.getContext("2d");
+		var message = "UVCSI.com";
+		theCanvas.style.background = "url(http://172.18.50.55/~jonny/learn-canvas/origin/back.jpg) center center";
+
+
+
+		var colorStops = new Array(
+		{color:"#ff0000",stopPercent:0},
+		{color:"#ffff00",stopPercent:0.125},
+		{color:"#00ff00",stopPercent:0.375},
+		{color:"#0000ff",stopPercent:0.625},
+		{color:"#ff00ff",stopPercent:0.875},
+		{color:"#ff00ff",stopPercent:1}
+		);
+
+		function drawScreen(){
+			//background
+
+		//text
+		context.font= "bold 60px courier"
+		context.shadowColor = "black";
+		context.shadowOffsetX = "2";
+		context.shadowOffsetY = "2";
+		context.shadowBlur = "2";
+		//context.textAlign = "center";
+		context.textBaseline = "middle";
+
+		var metrics = context.measureText(message);
+		var textWidth = metrics.width;
+		var xPosition = (theCanvas.width/2)-(textWidth/2);
+		var yPosition = (theCanvas.height/2);
+
+		//var gradient = context.createLinearGradient(theCanvas.width/2,0,theCanvas.width/2,theCanvas.height);
+		var gradient = context.createRadialGradient(theCanvas.width/2,theCanvas.height/2,theCanvas.height/4,theCanvas.width/2,theCanvas.height/2,theCanvas.height);
+		for(var i=0;i<colorStops.length;i++){
+			var tempColorStop = colorStops[i];
+			var tempColor = tempColorStop.color;
+			var tempStopPercent = tempColorStop.stopPercent;
+			gradient.addColorStop(tempStopPercent,tempColor);
+			tempStopPercent += .015;
+			if(tempStopPercent>1){
+				tempStopPercent = 0;
+			}
+			tempColorStop.stopPercent = tempStopPercent;
+			colorStops[i] = tempColorStop;
+		};
+
+			context.fillStyle = gradient;
+			context.fillText(message,xPosition,yPosition);
+		};
+
+		function gameLoop(){
+			window.setTimeout(gameLoop,20);
+			drawScreen();
+		};
+
+
+		gameLoop();
+	</script>
+</body>
+</html>
