@@ -12,54 +12,70 @@
 </head>
 <body>
 <canvas id="canvas"></canvas>		
-<img id="img" src="batman.jpg" alt="" style="position:absolute;z-index:-1;top:0px;left:0px">
 <script>
-	var canvas = document.getElementById("canvas");
-	var context = canvas.getContext("2d");
-	var img = document.getElementById("img");
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
-	
-	var sx = 0;
-	var sy = 0;
-	var dx = 0;
-	var dy = 0;
-	var sWidth,sHeight,dWidth,dHeight;
-	context.fillStyle = "black";
-	context.fillRect(0,0,canvas.width,canvas.height);
+	var img = [];
 
-	sWidth = img.clientWidth/5;
-	sHeight = img.clientHeight/5;
-	dWidth = canvas.width/5;
-	dHeight = canvas.height/5;
-	img.onload = function (){
-	img.style.display = "none";
-	drawScreen();
-	gameLoop();
+	function preload(){
+		for(var i =0;i<preload.arguments.length;i++){
+			img[i] = new Image();
+			img[i].src = preload.arguments[i];
+		};	
 	};
 
-	function gameLoop(){
-		sx+=sWidth;
-		dx+=dWidth;
-		if(sx>img.clientWidth&&dx>canvas.width){
-			sx = 0;
-			dx = 0;
-			sy+=sHeight;
-			dy+=dHeight;
-			if(sy>img.clientHeight&&dy>canvas.height){
-				sy = 0;
-				dy = 0;
-				context.fillRect(0,0,canvas.width,canvas.height);
+	preload( "batman.jpg","batman-01.jpg","batman-02.jpg","batman-03.jpg","batman-04.jpg","batman-05.jpg");
+
+	window.addEventListener("load",canvasApp,false);
+
+	function canvasApp(){
+		var canvas = document.getElementById("canvas");
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+		var context = canvas.getContext("2d");
+
+		/*init*/
+		context.drawImage(img[img.length-1],0,0,canvas.width,canvas.height);
+
+		var sx = 0;
+		var sy = 0;
+		var sWidth = 640/5;
+		var sHeight = 1080/5;
+		var dx = 0;
+		var dy = 0;
+		var dWidth = canvas.width/5;
+		var dHeight = canvas.height/5;
+		var index = 0;
+
+		/*start*/
+		context.drawImage(img[0],sx,sy,sWidth,sHeight,dx,dy,dWidth,dHeight);
+		gameLoop();
+
+		function gameLoop(){
+			sx+=sWidth;
+			dx+=dWidth;
+			if(sx>640){
+				sx=0;
+				dx=0;
+				sy+=sHeight;
+				dy+=dHeight;
+				if(sy>1080&&dy>canvas.height){
+					sy=0;
+					dy=0;
+					index++;
+					if(index>img.length-1){
+						index=0;
+					};
+				};
 			};
-			};
-		drawScreen();
-		setTimeout(gameLoop,50);
+			console.log(sx,dx);
+			setTimeout(gameLoop,50);
+			drawScreen(img[index]);
+		};
+
+		function drawScreen(targetImg){
+			context.drawImage(targetImg,sx,sy,sWidth,sHeight,dx,dy,dWidth,dHeight);
+		};
 	};
 
-	function drawScreen(){
-		context.drawImage(img,sx,sy,sWidth,sHeight,dx,dy,dWidth,dHeight);	
-	};
-	
 </script>
 </body>
 </html>
