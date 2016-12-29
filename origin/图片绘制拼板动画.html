@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title></title>
+	<style>
+		body{
+			margin:0px;
+		}
+	</style>
+</head>
+<body>
+<canvas id="canvas"></canvas>		
+<img id="img" src="batman.jpg" alt="" style="position:absolute;z-index:-1;top:0px;left:0px">
+<script>
+	var canvas = document.getElementById("canvas");
+	var context = canvas.getContext("2d");
+	var img = document.getElementById("img");
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
+	
+	var sx = 0;
+	var sy = 0;
+	var dx = 0;
+	var dy = 0;
+	var sWidth,sHeight,dWidth,dHeight;
+	context.fillStyle = "black";
+	context.fillRect(0,0,canvas.width,canvas.height);
+
+	sWidth = img.clientWidth/5;
+	sHeight = img.clientHeight/5;
+	dWidth = canvas.width/5;
+	dHeight = canvas.height/5;
+	img.onload = function (){
+	img.style.display = "none";
+	drawScreen();
+	gameLoop();
+	};
+
+	function gameLoop(){
+		sx+=sWidth;
+		dx+=dWidth;
+		if(sx>img.clientWidth&&dx>canvas.width){
+			sx = 0;
+			dx = 0;
+			sy+=sHeight;
+			dy+=dHeight;
+			if(sy>img.clientHeight&&dy>canvas.height){
+				sy = 0;
+				dy = 0;
+				context.fillRect(0,0,canvas.width,canvas.height);
+			};
+			};
+		drawScreen();
+		setTimeout(gameLoop,50);
+	};
+
+	function drawScreen(){
+		context.drawImage(img,sx,sy,sWidth,sHeight,dx,dy,dWidth,dHeight);	
+	};
+	
+</script>
+</body>
+</html>
