@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+		<title></title>
+		<style>
+			body{
+				margin:0px;
+			}
+		</style>
+	</head>
+	<body>
+		<canvas id="canvas"></canvas>		
+		<script>
+			var canvas = document.getElementById("canvas");
+			canvas.width = window.innerWidth;
+			canvas.height = window.innerHeight;
+			var context = canvas.getContext("2d");
+
+			window.addEventListener("load",canvasApp,false);
+
+			function canvasApp(){
+				var img = new Image();
+				img.src = "https://yt3.ggpht.com/-y0xG-0quEfo/AAAAAAAAAAI/AAAAAAAAAAA/scSQPSw_AgY/s100-c-k-no-mo-rj-c0xffffff/photo.jpg";
+				var sx,sy,sw,sh,dx,dy,dw,dh;
+				img.onload = function (){
+					sx=0;
+					sy=0;
+					sw=100;
+					sh=100;
+					dx=(canvas.width/2)-50;
+					dy=(canvas.height/2)-50;
+					dw=100;
+					dh=100;
+					drawScreen();
+			};
+
+				function drawScreen(){
+					context.
+					context.drawImage(img,sx,sy,sw,sh,dx,dy,dw,dh);
+				};
+			};
+
+		</script>
+	</body>
+</html>
