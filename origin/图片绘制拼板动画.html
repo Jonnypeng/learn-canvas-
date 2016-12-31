@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title></title>
+	<style>
+		body{
+			margin:0px;
+		}
+	</style>
+</head>
+<body>
+<canvas id="canvas"></canvas>		
+<script>
+	var img = [];
+
+	function preload(){
+		for(var i =0;i<preload.arguments.length;i++){
+			img[i] = new Image();
+			img[i].src = preload.arguments[i];
+		};	
+	};
+
+	preload( "batman.jpg","batman-01.jpg","batman-02.jpg","batman-03.jpg","batman-04.jpg","batman-05.jpg");
+
+	window.addEventListener("load",canvasApp,false);
+
+	function canvasApp(){
+		var canvas = document.getElementById("canvas");
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+		var context = canvas.getContext("2d");
+
+		/*init*/
+		context.drawImage(img[img.length-1],0,0,canvas.width,canvas.height);
+
+		var sx = 0;
+		var sy = 0;
+		var sWidth = 640/5;
+		var sHeight = 1080/5;
+		var dx = 0;
+		var dy = 0;
+		var dWidth = canvas.width/5;
+		var dHeight = canvas.height/5;
+		var index = 0;
+
+		/*start*/
+		context.drawImage(img[0],sx,sy,sWidth,sHeight,dx,dy,dWidth,dHeight);
+		gameLoop();
+
+		function gameLoop(){
+			sx+=sWidth;
+			dx+=dWidth;
+			if(sx>640){
+				sx=0;
+				dx=0;
+				sy+=sHeight;
+				dy+=dHeight;
+				if(sy>1080&&dy>canvas.height){
+					sy=0;
+					dy=0;
+					index++;
+					if(index>img.length-1){
+						index=0;
+					};
+				};
+			};
+			console.log(sx,dx);
+			setTimeout(gameLoop,50);
+			drawScreen(img[index]);
+		};
+
+		function drawScreen(targetImg){
+			context.drawImage(targetImg,sx,sy,sWidth,sHeight,dx,dy,dWidth,dHeight);
+		};
+	};
+
+</script>
+</body>
+</html>
