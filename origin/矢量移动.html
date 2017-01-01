@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ch4BaseFile - Template For Chapter 4 Examples</title>
+    <script src="//cdn.bootcss.com/modernizr/2010.07.06dev/modernizr.min.js"></script>
+    <script type="text/javascript">
+        window.addEventListener('load', eventWindowLoaded, false);
+
+        function eventWindowLoaded() {
+            canvasApp();
+        };
+
+        function canvasApp() {
+            if (!canvasSupport()) {
+                return;
+            } else {
+                var theCanvas = document.getElementById("canvas");
+                theCanvas.style.border = "1px solid gray";
+                var context = theCanvas.getContext("2d");
+            }
+            var p1={x:30,y:30};
+            var speed = 3;
+            var angle = Math.floor(Math.random()*90);
+            var radians = angle*Math.PI/180;
+            var xunits = Math.cos(radians)*speed;
+            var yunits = Math.sin(radians)*speed;
+            context.fillStyle = "red";
+            function updateBall(){
+            radians = angle*Math.PI/180;
+            xunits = Math.cos(radians)*speed;
+            yunits = Math.sin(radians)*speed;
+            };
+            gameLoop();
+
+            function gameLoop(){
+              p1.x+=xunits;
+              p1.y+=yunits;
+              drawScreen();
+              window.setTimeout(gameLoop,15);
+            };
+
+            function drawScreen(){
+              if((p1.x+20)>=theCanvas.width || (p1.x-20)<=0){
+                console.log("ok");
+                angle = 180 - angle;
+                updateBall();
+              };
+              if((p1.y+20)>=theCanvas.width || (p1.y-20)<=0){
+                angle = 360 - angle;
+                updateBall();
+              };
+              context.clearRect(0,0,theCanvas.width,theCanvas.height);
+              context.beginPath();
+              context.arc(p1.x,p1.y,20,0*Math.PI/180,360*Math.PI/180,false);
+              context.fill();
+              context.closePath();
+            };
+        }
+
+        function canvasSupport() {
+            return Modernizr.canvas;
+        }
+    </script>
+</head>
+
+<body>
+    <div style="position: absolute; top: 50px; left: 50px;"> <canvas id="canvas" width="500" height="500">
+		   Your browser does not support HTML5 Canvas.
+		   </canvas>
+    </div>
+</body>
+
+</html>

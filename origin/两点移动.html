@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Ch4BaseFile - Template For Chapter 4 Examples</title>
+	<script src="//cdn.bootcss.com/modernizr/2010.07.06dev/modernizr.min.js"></script>
+	<script type="text/javascript">
+		window.addEventListener('load', eventWindowLoaded, false);
+
+		function eventWindowLoaded() {
+			canvasApp();
+		};
+
+		function canvasApp() {
+			if (!canvasSupport()) {
+				return;
+			} else {
+				var theCanvas = document.getElementById("canvas");
+				var context = theCanvas.getContext("2d");
+			}
+			var source = {};
+			var target = {};
+
+			source.x = 30;
+			source.y = 30;
+			target.x = 480;
+			target.y = 480;
+			dx = target.x - source.x;
+			dy = target.y - source.y;
+			var speed = 1; //每次移动的像素值
+			var st = Math.sqrt(dx * dx + dy * dy); //从source到target的距离有多远
+			var step = st / speed; //以5像素为速度，共需要多少次才能走完
+
+			var xunits = (target.x - source.x) / step; //x经过相应的次数所应该平移的距离；
+			var yunits = (target.y - source.y) / step; //y经过相应的次数所应该平移的距离；
+			var gradient;
+			var addOff = true;
+			var sourcePoint = [];
+			var img = new Image();
+			img.src="point.png";
+			img.onload = function (){
+			gameLoop();
+			};
+
+			function gameLoop() {
+				if (addOff) {
+					source.x += xunits;
+					source.y += yunits;
+					if (source.x > target.x) {
+						addOff = false;
+					};
+				} else if (!addOff) {
+					source.x -= xunits;
+					source.y -= yunits;
+					if (source.x < 30) {
+						addOff = true;
+					};
+				};
+				sourcePoint.push({x:source.x,y:source.y});
+				drawScreen();
+				window.setTimeout(gameLoop, 10);
+			};
+
+			function drawScreen() {
+				context.clearRect(0, 0, canvas.width, canvas.height);
+				for(var i = 0;i<sourcePoint.length;i++){
+					context.drawImage(img,sourcePoint[i].x,sourcePoint[i].y,10,10);
+				};
+				context.beginPath();
+				gradient = context.createRadialGradient(source.x, source.y, 10, source.x, source.y, 20);
+				gradient.addColorStop("0", "red");
+				gradient.addColorStop("1", "yellow");
+				context.fillStyle = gradient;
+				context.arc(source.x, source.y, 20, 0 * Math.PI / 180, 360 * Math.PI / 180, false);
+				context.fill();
+				context.closePath();
+			};
+		};
+
+		function canvasSupport() {
+			return Modernizr.canvas;
+		}
+	</script>
+</head>
+
+<body>
+	<div style="position: absolute; top: 50px; left: 50px;"> <canvas id="canvas" width="500" height="500">
+		   Your browser does not support HTML5 Canvas.
+		   </canvas>
+	</div>
+</body>
+
+</html>

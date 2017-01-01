@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Ch4BaseFile - Template For Chapter 4 Examples</title>
+		<script src="//cdn.bootcss.com/modernizr/2010.07.06dev/modernizr.min.js"></script>
+		<script type="text/javascript">
+			window.addEventListener('load', eventWindowLoaded, false);
+
+			function eventWindowLoaded() {
+				canvasApp();
+			};
+function canvasApp(){
+	if (!canvasSupport()) { return;
+	}else{
+		var theCanvas = document.getElementById("canvas");
+		var context = theCanvas.getContext("2d");
+	}
+
+	var blueObject = {};
+	var redObject = {};
+
+	blueObject.x = 0;
+	blueObject.y = 200;
+	blueObject.dx = 2;
+	blueObject.width = 48;
+	blueObject.height = 48;
+	blueObject.image = new Image();
+	blueObject.image.src = "blueplus.png";
+
+	context.drawImage(blueObject.image,0,0);
+	blueObject.blueImageData = context.getImageData(0,0,blueObject.width,blueObject.height);
+	context.clearRect(0,0,theCanvas.width,theCanvas.height);
+
+	redObject.x = 348;
+	redObject.y = 200;
+	redObject.dx = -2;
+	redObject.width = 48;
+	redObject.height = 48;
+	redObject.image = new Image();
+	redObject.image.src = "redcircle.png";
+
+	context.drawImage(redObject.image,0,0);
+	redObject.redImageData = context.getImageData(0,0,redObject.width,redObject.height);
+	context.clearRect(0,0,theCanvas.width,theCanvas.height);
+
+	function drawScreen(){
+		blueObject.x+=blueObject.dx;
+		redObject.x+=redObject.dx;
+
+		context.clearRect(0,0,theCanvas.width,theCanvas.height);
+		context.drawImage(blueObject.image,blueObject.x,blueObject.y);
+		context.drawImage(redObject.image,redObject.x,redObject.y);
+
+		if(boundingBoxCollide(blueObject,redObject)){
+				var xMin = Math.max(blueObject.x,redObject.x);
+				var yMin = Math.max(blueObject.y,redObject.y);
+				var xMax = Math.min(blueObject.x+blueObject.width,redObject.x + redObject.width);
+				var yMax = Math.min(blueObject.y+blueObject.width,redObject.y + redObject.width);
+
+				for(var pix1X=xMin;pix1X<xMax;pix1X++){
+					for(var pix1Y=yMin;pix1Y<yMax;pix1Y++){
+									var bluepixe1 = ((pix1X-blueObject.x) + (pix1Y-blueObject.y)*blueObject.width)*4 + 3;
+									var redpixe1 = ((pix1X-redObject.x) + (pix1Y-redObject.y)*redObject.width)*4 + 3;
+
+									if((blueObject.blueImageData.data[bluepixe1]!==0)&&(redObject.redImageData.data[redpixe1]!==0)){
+									blueObject.dx=0;
+									redObject.dx=0;
+									break;
+									}
+					}	
+				};
+		};
+	};
+	function boundingBoxCollide(object1,object2){
+		var left1 = object1.x;
+		var left2 = object2.x;
+		var right1 = object1.x + object1.width;
+		var right2 = object2.x + object2.width;
+
+		var top1 = object1.y;
+		var top2 = object2.y;
+
+		var bottom1 = object1.y + object1.height;
+		var bottom2 = object2.y + object2.height;
+
+		if(bottom1<top2)return(false);
+		if(top1>bottom2)return(false);
+
+		if(right1<left2)return(false);
+		if(left1>right2)return(false);
+		return(true);
+	};
+
+	function startUp(){
+		gameLoop();
+	};
+
+	function gameLoop(){
+		window.setTimeout(gameLoop,100);
+		drawScreen();
+	};
+		startUp();
+};
+function canvasSupport () {return Modernizr.canvas;}
+</script>
+   </head>
+   <body>
+	   <div style="position: absolute; top: 50px; left: 50px;"> <canvas id="canvas" width="500" height="500">
+		   Your browser does not support HTML5 Canvas.
+		   </canvas>
+	   </div>
+   </body>
+	   </html>
