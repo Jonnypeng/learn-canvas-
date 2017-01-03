@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<title>Ch4BaseFile - Template For Chapter 4 Examples</title>
@@ -37,9 +38,9 @@
 			var addOff = true;
 			var sourcePoint = [];
 			var img = new Image();
-			img.src="point.png";
-			img.onload = function (){
-			gameLoop();
+			img.src = "point.png";
+			img.onload = function() {
+				gameLoop();
 			};
 
 			function gameLoop() {
@@ -56,15 +57,18 @@
 						addOff = true;
 					};
 				};
-				sourcePoint.push({x:source.x,y:source.y});
+				sourcePoint.push({
+					x: source.x,
+					y: source.y
+				});
 				drawScreen();
 				window.setTimeout(gameLoop, 10);
 			};
 
 			function drawScreen() {
 				context.clearRect(0, 0, canvas.width, canvas.height);
-				for(var i = 0;i<sourcePoint.length;i++){
-					context.drawImage(img,sourcePoint[i].x,sourcePoint[i].y,10,10);
+				for (var i = 0; i < sourcePoint.length; i++) {
+					context.drawImage(img, sourcePoint[i].x, sourcePoint[i].y, 10, 10);
 				};
 				context.beginPath();
 				gradient = context.createRadialGradient(source.x, source.y, 10, source.x, source.y, 20);
