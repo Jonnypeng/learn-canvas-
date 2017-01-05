@@ -38,6 +38,8 @@
       var backImg = new Image();
       backImg.src = "gameMap.png";
       backImg.onload = function (){
+				document.getElementById("content").scrollLeft =	1920/2;
+				document.getElementById("content").scrollTop = 1080/2;
         drawBack();
         function drawBack(){
             context.drawImage(backImg,0,0,1920,1080);
