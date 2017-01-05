@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ch4BaseFile - Template For Chapter 4 Examples</title>
+    <style>
+        margin:0px;
+    </style>
+    <script>
+        window.addEventListener('load', canvasApp, false);
+
+        function canvasApp() {
+            var theCanvas = document.getElementById("canvas");
+            theCanvas.width = window.innerWidth;
+            theCanvas.height = window.innerHeight;
+            var context = theCanvas.getContext("2d");
+            var img = new Image();
+            img.src = "sim.jpg";
+            img.addEventListener("load", loadFn, false);
+
+            function loadFn() {
+                var sx = 1;
+                var sy = 0;
+                var sw = 640;
+                var sh = 1080;
+                var dx = 0;
+                var dy = 0;
+                var dw = theCanvas.width;
+                var dh = theCanvas.height;
+                var stop = 640;
+
+                document.addEventListener('touchstart', clicked, false);
+                drawScreen();
+
+                function clicked() {
+                    gameLoop();
+                };
+
+                var n = 1; //方向
+                var start = false;
+
+                function gameLoop() {
+                    var Loop = setInterval(function() {
+                        if (sx >= (640 * 2)) {
+                            n = -1;
+                        };
+                        if (sx <= 0) {
+                            n = 1;
+                        };
+                        if (start) {
+                            if (sx % 640 == 0) {
+                                clearInterval(Loop);
+                            };
+                            console.log(sx%640);
+                        };
+                        sx = sx + (1 * n);
+                        drawScreen();
+                    }, 1);
+                    start = true;
+                };
+
+                function drawScreen() {
+                    context.clearRect(0, 0, theCanvas.width, theCanvas.height);
+                    context.drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh);
+                };
+            };
+        };
+    </script>
+</head>
+
+<body>
+    <canvas id="canvas"> </canvas>
+    </div>
+</body>
+
+</html>
