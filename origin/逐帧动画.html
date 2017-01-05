@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Ch4BaseFile - Template For Chapter 4 Examples</title>
+	<style>
+	body{
+		margin:0px;
+	}
+	</style>
+	<script src="//cdn.bootcss.com/modernizr/2010.07.06dev/modernizr.min.js"></script>
+	<script type="text/javascript">
+	window.addEventListener('load', eventWindowLoaded, false);
+
+	function eventWindowLoaded() {
+		canvasApp();
+	};
+	function canvasApp(){
+		if (!canvasSupport()) { return;
+		}else{
+			var theCanvas = document.getElementById("canvas");
+			theCanvas.width = window.innerWidth;
+			theCanvas.height = window.innerHeight;
+			var context = theCanvas.getContext("2d");
+			var img = new Image();
+			img.src = "frame-rate-01.jpg";
+			img.onload = function (){
+				var imgWidth = 581;
+				var imgHeight = 463;
+				var sx = 0;
+				var sy = 0;
+				var sw = imgWidth/8;
+				var sh = imgHeight/4;
+				var dw = (imgWidth/8)*2;
+				var dh = (imgHeight/4)*2;
+				var dx = theCanvas.width/2 - dw/2;
+				var dy = theCanvas.height/2 - dh/2;
+
+				context.fillStyle = "black";
+
+				gameLoop();
+
+				function gameLoop(){
+					sx+=sw;
+					if(sx>imgWidth-sw){
+						sx=0;
+						sy+=sh;
+						console.log(sx,sy)
+						if(sy>imgHeight-sh){
+							sx=0;
+							sy=0;
+						};
+					};
+					drawScreen();
+					setTimeout(gameLoop,110);
+				};
+				function drawScreen(){
+					context.fillRect(0,0,theCanvas.width,theCanvas.height);
+					context.drawImage(img,sx,sy,sw,sh,dx,dy,dw,dh);
+				};
+			};
+		}
+	};
+	function canvasSupport () {return Modernizr.canvas;}
+	</script>
+</head>
+<body>
+	<canvas id="canvas">
+		Your browser does not support HTML5 Canvas.
+	</canvas>
+</div>
+</body>
+</html>

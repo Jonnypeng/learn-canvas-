@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Ch4BaseFile - Template For Chapter 4 Examples</title>
+		<script src="//cdn.bootcss.com/modernizr/2010.07.06dev/modernizr.min.js"></script>
+		<script type="text/javascript">
+			window.addEventListener('load', eventWindowLoaded, false);
+
+			function eventWindowLoaded() {
+				canvasApp();
+			};
+function canvasApp(){
+	if (!canvasSupport()) { return;
+	}else{
+    var tangram = [
+      {p:[{x:0,y:0},{x:800,y:0},{x:400,y:400}],color:"#caff67"},
+  	  {p:[{x:0,y:0},{x:400,y:400},{x:0,y:800}],color:"#67becf"},
+  	  {p:[{x:800,y:0},{x:800,y:400},{x:600,y:600},{x:600,y:200}],color:"#ef3d61"},
+  	  {p:[{x:600,y:200},{x:600,y:600},{x:400,y:400}],color:"#f9f51a"},
+  	  {p:[{x:400,y:400},{x:600,y:600},{x:400,y:800},{x:200,y:600}],color:"#a594c0"},
+  	  {p:[{x:200,y:600},{x:400,y:800},{x:0,y:800}],color:"#fa8ecc"},
+  	  {p:[{x:800,y:400},{x:800,y:800},{x:400,y:800}],color:"#f6ca29"}
+    ];
+		var canvas = document.getElementById("canvas");
+    canvas.width = 800;
+    canvas.height = 800;
+
+		var context = canvas.getContext("2d");
+
+    for(var i = 0;i<tangram.length;i++){
+      draw(tangram[i],context);
+    };
+
+
+
+	}
+	drawScreen();
+	function drawScreen() {
+	} }
+function canvasSupport () {return Modernizr.canvas;}
+</script>
+   </head>
+   <body>
+	   <div style="position: absolute; top: 50px; left: 50px;"> <canvas id="canvas" width="500" height="500">
+		   Your browser does not support HTML5 Canvas.
+		   </canvas>
+	   </div>
+   </body>
+	   </html>
