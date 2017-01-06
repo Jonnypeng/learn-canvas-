@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Ch4BaseFile - Template For Chapter 4 Examples</title>
+	<link href="animate.css" rel="stylesheet">
 	<style>
 	body{
 		margin:0px;
@@ -17,8 +18,28 @@
     width:100%;
     height:100%;
     overflow:scroll;
-    -webkit-overflow-scrolling:touch;
+  /*  -webkit-overflow-scrolling:touch;*/
   }
+	.arrow #left{
+		position:fixed;
+		top:-webkit-calc((100% - 24px) / 2);
+		left:10px;
+	}
+	.arrow #right{
+		position:fixed;
+		top:-webkit-calc((100% - 24px) / 2);
+		right:10px;
+	}
+	.arrow #top{
+		position:fixed;
+		top:10px;
+		left:-webkit-calc((100% - 14px) / 2);
+	}
+	.arrow #down{
+		position:fixed;
+		bottom:10px;
+		left:-webkit-calc((100% - 14px) / 2);
+	}
 	</style>
 	<script src="//cdn.bootcss.com/modernizr/2010.07.06dev/modernizr.min.js"></script>
 	<script type="text/javascript">
@@ -34,18 +55,44 @@
 			var theCanvas = document.getElementById("canvasOne");
       theCanvas.width =  1920;
       theCanvas.height =  1080;
+			var frameImg = new Image();
+			frameImg.src = "frameAni.jpg";
 			var context = theCanvas.getContext("2d");
       var backImg = new Image();
       backImg.src = "gameMap.png";
       backImg.onload = function (){
 				document.getElementById("content").scrollLeft =	1920/2;
 				document.getElementById("content").scrollTop = 1080/2;
-        drawBack();
+				var frameImgWidth = 1024;
+				var frameImgHeight = 616;
+				var sx = 0;
+				var sy = 0;
+				var sw = frameImgWidth/10;
+				var sh = frameImgHeight/6;
+				var dx = 0;
+				var dy = 0;
+				var dw = frameImgWidth/10;
+				var dh = frameImgHeight/6;
+
+				gameLoop();
+
+				function gameLoop(){
+					sx+=sw;
+					if(sx>frameImgWidth-sw){
+						sy+=sh;
+						sx=0;
+						if(sy>frameImgHeight-sh){
+							sx=0;
+							sy=0;
+						};
+					};
+					context.clearRect(0,0,theCanvas.width,theCanvas.height);  //清屏
+        	drawBack();  //画背景
+					context.drawImage(frameImg,sx,sy,sw,sh,1050,680,dw,dh);   //画图
+					setTimeout(gameLoop,60);
+				};
         function drawBack(){
             context.drawImage(backImg,0,0,1920,1080);
-        };
-
-        function drawTouch(){
         };
       };
 		}
@@ -57,6 +104,12 @@
     <div id="content">
 		<canvas id="canvasOne">
 		</canvas>
+		<div class="arrow">
+			<img src="left.svg" alt="" id="left" class="animated fadeInRight infinite">
+			<img src="right.svg" alt="" id="right" class="animated fadeInLeft infinite">
+			<img src="up.svg" alt="" id="top" class="animated fadeInUp infinite">
+			<img src="down.svg" alt="" id="down" class="animated fadeInDown infinite">
+		</div>
     </div>
 	</body>
 	</html>
