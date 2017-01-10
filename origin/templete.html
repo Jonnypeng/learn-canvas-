@@ -21,6 +21,8 @@
 		}else{
 			var theCanvas = document.getElementById("canvas");
 			var context = theCanvas.getContext("2d");
+			theCanvas.width = window.innerWidth;
+			theCanvas.height = window.innerHeight;
 		}
 		}
 		function canvasSupport () {return Modernizr.canvas;}

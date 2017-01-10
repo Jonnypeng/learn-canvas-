@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>Ch4BaseFile - Template For Chapter 4 Examples</title>
+	<style>
+	body{
+		margin:0px;
+	}
+	</style>
+	<script src="//cdn.bootcss.com/modernizr/2010.07.06dev/modernizr.min.js"></script>
+	<script type="text/javascript">
+	window.addEventListener('load', eventWindowLoaded, false);
+
+	function eventWindowLoaded() {
+		canvasApp();
+	};
+
+	function canvasApp(){
+		if (!canvasSupport()) { return;
+		}else{
+			var theCanvas = document.getElementById("canvas");
+			var context = theCanvas.getContext("2d");
+			theCanvas.width = window.innerWidth;
+			theCanvas.height = window.innerHeight;
+
+			var icon = ["https://img1.doubanio.com/icon/u27405327.jpg","https://img3.doubanio.com/icon/u1428482-4.jpg","https://img3.doubanio.com/icon/u57783734-165.jpg","https://img5.doubanio.com/icon/u46668062-6.jpg","https://img3.doubanio.com/icon/u2151262-91.jpg"];  //头像数组
+			var balls = [];  //圆形数组
+			var ballNum = 5;
+			
+			var i = 0;
+			while(i<ballNum){
+			var ball = {}; //单个圆形对象
+				ball.x = theCanvas.width/2;
+				ball.y = theCanvas.height/2;	
+				ball.icon =	new Image(); ball.icon.src = icon[i];
+				ball.radius = 24;   //半径
+				ball.angle = Math.floor(Math.random()*360);   //角度
+				ball.radians = ball.angle*Math.PI/180;  //弧度 
+				ball.speed = 3;  //速度
+				ball.nextX = Math.cos(ball.radians)*ball.speed;
+				ball.nextY = Math.sin(ball.radians)*ball.speed
+				balls[i] = ball ;
+				i++;
+			};
+
+			console.log(balls);
+
+			context.clearRect(0,0,theCanvas.width,theCanvas.height);
+
+			//for(var j = 0;j<balls.length;j++){
+				context.beginPath();
+				context.globalCompositeOperation = "source-over";
+				context.drawImage(balls[0].icon,0,0,48,48,balls[0].x - balls[0].radius,balls[0].y - balls[0].radius,48,48);
+				context.arc(balls[0].x,balls[0].y,balls[0].radius,0*Math.PI/180,360*Math.PI/180,true);
+				context.fill();
+				context.closePath();
+			//};
+		}
+		}
+
+		function canvasSupport () {return Modernizr.canvas;}
+		</script>
+	</head>
+	<body>
+		<canvas id="canvas">
+		</canvas>
+	</body>
+	</html>
