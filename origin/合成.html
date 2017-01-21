@@ -13,11 +13,11 @@
 	context.fillStyle = "black";
 	context.fillRect(10,10,200,200);
 
+	context.globalCompositeOperation = "source-out";//并集
 	context.fillStyle = "red";
 	context.fillRect(1,1,50,50);
 
-	context.globalCompositeOperation = "source-over";//并集
-	context.save();
+	/*context.save();
 	context.fillRect(60,1,50,50);
 
 	context.globalCompositeOperation = "source-in";//交集
@@ -31,7 +31,7 @@
 	context.setTransform(1,0,0,1,0,0);
 	context.rotate(15*Math.PI/180);
 	context.fillStyle = "green";
-	context.fillRect(70,70,50,50)
+	context.fillRect(70,70,50,50)*/
 
 
 

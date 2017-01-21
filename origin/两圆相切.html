@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Ch4BaseFile - Template For Chapter 4 Examples</title>
+		<style>
+			body{
+				margin:0px;
+			}
+		</style>
+		<script src="//cdn.bootcss.com/modernizr/2010.07.06dev/modernizr.min.js"></script>
+		<script type="text/javascript">
+			window.addEventListener('load', eventWindowLoaded, false);
+
+			function eventWindowLoaded() {
+				canvasApp();
+			};
+
+function canvasApp(){
+	if (!canvasSupport()) { return;
+	}else{
+		var theCanvas = document.getElementById("canvas");
+		var context = theCanvas.getContext("2d");
+		theCanvas.width = window.innerWidth;
+		theCanvas.height = window.innerHeight;
+
+		var ball1 = {};
+		var ball2 = {};
+
+		var speed = 3;
+
+		ball1.x = 100;
+		ball1.y = 100;
+		ball1.radius = 80;
+		ball1.color = "red";
+		ball1.ang = Math.floor(Math.random()*360);
+		ball1.radians = ball1.ang*Math.PI/180;
+		ball1.dx = Math.cos(ball1.radians)*speed;
+		ball1.dy = Math.sin(ball1.radians)*speed;
+
+		ball2.x = 280;
+		ball2.y = 100;
+		ball2.radius = 80;
+		ball2.color = "blue";
+		ball2.ang = Math.floor(Math.random()*360);
+		ball2.radians = ball2.ang*Math.PI/180;
+		ball2.dx = Math.cos(ball2.radians)*speed;
+		ball2.dy = Math.sin(ball2.radians)*speed;
+
+		var dx = ball2.x - ball1.x;
+		var dy = ball2.y - ball1.y 
+
+			function drawBall1(){		//绘制球体1
+				context.beginPath();
+				context.fillStyle = ball1.color;
+				context.arc(ball1.x,ball1.y,ball1.radius,0*Math.PI/180,360*Math.PI/180,true);
+				context.fill();
+				context.closePath();
+			};	 
+
+		function drawBall2(){  //绘制球体2
+			context.beginPath();
+			context.fillStyle = ball2.color;
+			context.arc(ball2.x,ball2.y,ball2.radius,0*Math.PI/180,360*Math.PI/180,true);
+			context.fill();
+			context.closePath();
+		};	 
+
+		function twoBomb(){   //判断两球之间是否碰撞
+			var ok = false;
+			if(Math.sqrt(dx*dx + dy*dy) <= ball1.radius + ball2.radius){
+				ok = true;
+				return ok;
+				var collisionAngle = Math.atan2(dy,dx);   //碰撞的作用线
+			}else if(Math.sqrt(dx*dx + dy*dy) > ball1.radius + ball2.radius){
+				ok = false;
+				return ok;
+			};
+		};
+
+		function everyBomb(){   //两球触碰边缘后，反射角度
+			if((ball1.x + ball1.radius)>=theCanvas.width || (ball1.x - ball1.radius)<=0){
+				ball1.ang = 180 - ball1.ang;	
+				updateBall1();
+			}else if((ball1.y + ball1.radius) >= theCanvas.height || (ball1.y - ball1.radius) <= 0){
+				ball1.ang = 360 - ball1.ang;	
+				updateBall1();
+			};
+			if((ball2.x + ball2.radius)>=theCanvas.width || (ball2.x - ball2.radius)<=0){
+				ball2.ang = 180 - ball2.ang;	
+				updateBall2();
+			}else if((ball2.y + ball2.radius) >= theCanvas.height || (ball2.y - ball2.radius) <= 0){
+				ball2.ang = 360 - ball2.ang;	
+				updateBall2();
+			};
+		}; 
+
+		function updateBall1(){
+			ball1.radians = ball1.ang*Math.PI/180;
+			ball1.dx = Math.cos(ball1.radians)*speed;
+			ball1.dy = Math.sin(ball1.radians)*speed;
+		};
+
+		function updateBall2(){
+			ball2.radians = ball2.ang*Math.PI/180;
+			ball2.dx = Math.cos(ball2.radians)*speed;
+			ball2.dy = Math.sin(ball2.radians)*speed;
+		};
+
+		(function gameLoop(){
+		 ball1.x+=ball1.dx;
+		 ball1.y+=ball1.dy;
+		 ball2.x+=ball2.dx;
+		 ball2.y+=ball2.dy;
+		 everyBomb();
+			dx = ball2.x - ball1.x;  //更新dx
+			dy = ball2.y - ball1.y   //更新dy
+		 context.clearRect(0,0,theCanvas.width,theCanvas.height);
+		 drawBall1();
+		 drawBall2();
+		 window.setTimeout(gameLoop,10);
+		 })();	
+
+	}
+}
+function canvasSupport () {return Modernizr.canvas;}
+</script>
+	</head>
+	<body>
+		<canvas id="canvas">
+		</canvas>
+	</body>
+</html>
