@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Ch4BaseFile - Template For Chapter 4 Examples</title>
+	<style>
+	body{
+		margin:0px;
+	}
+	</style>
+	<script src="//cdn.bootcss.com/modernizr/2010.07.06dev/modernizr.min.js"></script>
+	<script type="text/javascript">
+	window.addEventListener('load', eventWindowLoaded, false);
+
+	function eventWindowLoaded() {
+		canvasApp();
+	};
+
+	function canvasApp(){
+		if (!canvasSupport()) { return;
+		}else{
+			var theCanvas = document.getElementById("canvas");
+			var context = theCanvas.getContext("2d");
+			theCanvas.width = window.innerWidth;
+			theCanvas.height = window.innerHeight;
+			var img = new Image();
+			img.src = "wallpaper.png";
+			img.onload = function (){
+				context.setTransform(1,0,0,1,0,0);
+					context.translate(theCanvas.width/2,theCanvas.height/2);
+				var num = 0;
+				(function gameLoop(){
+					num++;
+					num=num%360;
+					context.clearRect(0,0,theCanvas.width,theCanvas.height);
+					context.rotate(num*Math.PI/180);
+					context.drawImage(img,0,0,800,800,theCanvas.width*-1,theCanvas.height*-1,theCanvas.width*2,theCanvas.height*2);
+					setTimeout(gameLoop,20);
+				})();
+			};
+		}
+	}
+	function canvasSupport () {return Modernizr.canvas;}
+	</script>
+</head>
+<body>
+	<canvas id="canvas">
+	</canvas>
+</body>
+</html>
