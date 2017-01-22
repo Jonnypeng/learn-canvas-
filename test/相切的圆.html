@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Ch4BaseFile - Template For Chapter 4 Examples</title>
+	<style>
+	body{
+		margin:0px;
+	}
+	</style>
+	<script src="//cdn.bootcss.com/modernizr/2010.07.06dev/modernizr.min.js"></script>
+	<script type="text/javascript">
+	window.addEventListener('load', eventWindowLoaded, false);
+
+	function eventWindowLoaded() {
+		canvasApp();
+	};
+
+	function canvasApp(){
+		if (!canvasSupport()) { return;
+		}else{
+			var theCanvas = document.getElementById("canvas");
+			canvas.width = 500;
+			canvas.height = 500;
+			var context = theCanvas.getContext("2d");
+			var ball1 = {};
+			var ball2 = {};
+
+			ball1.x = 100;
+			ball1.y = 100;
+		}
+		}
+		function canvasSupport () {return Modernizr.canvas;}
+		</script>
+	</head>
+	<body>
+		<canvas id="canvas">
+		</canvas>
+	</body>
+	</html>
