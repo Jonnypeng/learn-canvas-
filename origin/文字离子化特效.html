@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Ch4BaseFile - Template For Chapter 4 Examples</title>
+	<style>
+	body{
+		margin:0px;
+		text-align:center;
+	}
+
+	canvas{
+		margin-top:30px;
+		border:1px solid gray;
+	}
+	
+	</style>
+	<script src="//cdn.bootcss.com/modernizr/2010.07.06dev/modernizr.min.js"></script>
+	<script type="text/javascript">
+	window.addEventListener('load', eventWindowLoaded, false);
+
+	function eventWindowLoaded() {
+		canvasApp();
+	};
+
+	function canvasApp(){
+		if (!canvasSupport()) { return;
+		}else{
+			var theCanvas = document.getElementById("canvas");
+			var context = theCanvas.getContext("2d");
+			var text = document.getElementById("text");
+
+			context.fillStyle = "black";
+			context.font = "65px serif";
+			context.textAlign = "center";
+
+			var commit = document.getElementById("btn");
+			commit.addEventListener("click",drawScreen,false);
+
+			function drawScreen(){
+			context.clearRect(0,0,theCanvas.width,theCanvas.height);
+			var textValue = text.value;
+			context.fillText(textValue,400,200);
+			}
+
+			function imgArr(){
+			
+			};
+
+
+			
+		}
+		}
+		function canvasSupport () {return Modernizr.canvas;}
+		</script>
+	</head>
+	<body>
+		<canvas id="canvas" width="800" height="400"></canvas>
+		<form action="">
+			<input type="text" id="text" value="This is Test!" />
+			<input type="button" id="btn" value="ok" />
+		</form>
+	</body>
+	</html>
